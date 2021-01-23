@@ -4,6 +4,7 @@ const request = require("request");
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
+
 const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
