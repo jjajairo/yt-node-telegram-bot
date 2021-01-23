@@ -2,18 +2,18 @@ require("dotenv/config");
 const request = require("request");
 
 const BOT_TOKEN = process.env.BOT_TOKEN;
-const API_KEY = process.env.API_KEY;
+const MOVIE_API_KEY = process.env.MOVIE_API_KEY;
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(BOT_TOKEN, { polling: true });
 
 bot.onText(/\/movie (.+)/, function (msg, match) {
-  let movie = match[1];
-  let movieEncoded = encodeURI(movie);
+  let movie = encodeURI(match[1]);
   let chatId = msg.chat.id;
   request(
-    `http://www.omdbapi.com/?apikey=${API_KEY}&t=${movieEncoded}`,
+    `http://www.omdbapi.com/?apikey=${MOVIE_API_KEY}&t=${movie}`,
     (error, response, body) => {
-      console.log(movieEncoded);
+      console.log(movie);
       if (!error && response.statusCode == 200) {
         bot
           .sendMessage(chatId, `_Looking for_ ${movie}...`, {
@@ -39,4 +39,31 @@ bot.onText(/\/movie (.+)/, function (msg, match) {
     }
   );
   bot.sendMessage(chatID, movie);
+});
+
+bot.onText(/\/weather (.+)/, (msg, match) => {
+  let chatId = msg.chat.id;
+  var weather = encodeURI(match[1]);
+  request(
+    `http://api.weatherstack.com/current?access_key=${WEATHER_API_KEY}&query=${weather}`,
+    (error, response, body) => {
+      if (!error && response.statusCode == 200) {
+        let res = JSON.parse(body);
+        try {
+          bot.sendMessage(
+            chatId,
+            `🚩*${res.location.name}, ${res.location.region}, ${res.location.country}*\n⌚${res.location.localtime}\n🌡${res.current.temperature}Cº\n☁${res.current.weather_descriptions[0]}`,
+            {
+              parse_mode: "Markdown",
+            }
+          );
+        } catch (error) {
+          bot.sendMessage(
+            chatId,
+            "Localização não encontrada. Verifique e tente novamente."
+          );
+        }
+      }
+    }
+  );
 });
