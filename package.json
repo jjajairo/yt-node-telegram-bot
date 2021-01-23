@@ -1,0 +1,17 @@
+{
+  "name": "yt-node-telegram-bot",
+  "version": "1.0.0",
+  "description": "Create a bot wich tells us the data of the movie when we give it a title. And a bot which updates us with weather info of our current time.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.51.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {}
+}
