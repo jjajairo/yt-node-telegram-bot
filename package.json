@@ -4,7 +4,8 @@
   "description": "Create a bot wich tells us the data of the movie when we give it a title. And a bot which updates us with weather info of our current time.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
